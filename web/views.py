@@ -50,16 +50,22 @@ class Index(MethodView):
             # print(type(im))
             # im.save("img4.png")
 
-            im = im.crop((x1, y1, x2, y2))
-            # im.save("img.png")
+            # im = im.crop((x1, y1, x2, y2))
+            im.save("out.png")
 
-            with BytesIO() as output:
-                im.save(output, 'BMP')
-                b_img = output.getvalue()
+            with open('out.png', "rb") as imageFile:
+                
+                f = imageFile.read()
+                b_img = bytearray(f)
+
+
+            
+            # with BytesIO() as output:
+            #     im.save(output, 'BMP')
+            #     b_img = output.getvalue()
 
             aws_return = detect_text(b_img)
-            # aws_return = detect_text('test_ocr.png')
-            # print(aws_return)
+            print(aws_return)
 
         #     #text from OCR
         #     aws_return = detect_text(img)
