@@ -10,6 +10,7 @@ var video = document.querySelector('#camera-stream'),
     error_message = document.querySelector('#error-message'),
     download_image_btn = document.querySelector('#upload-photo');
 
+let picture_data = null;
 
 // The getUserMedia interface is used for handling camera input.
 // Some browsers need a prefix so here we're covering all the options
@@ -25,8 +26,8 @@ if (!navigator.getMedia) {
 
     // Request the camera.
     navigator.getMedia({
-            video: true
-        },
+        video: true
+    },
         // Success Callback
         function (stream) {
 
@@ -71,7 +72,7 @@ take_photo_btn.addEventListener("click", function (e) {
     e.preventDefault();
 
     var snap = takeSnapshot();
-
+    picture_data = snap
     // Show image. 
     image.setAttribute('src', snap);
     image.classList.add("visible");
@@ -187,3 +188,6 @@ function hideUI() {
     snap.classList.remove("visible");
     error_message.classList.remove("visible");
 }
+
+
+

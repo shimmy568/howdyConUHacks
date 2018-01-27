@@ -1,0 +1,4 @@
+flask_sqlalchemy
+flask
+boto3
+json
