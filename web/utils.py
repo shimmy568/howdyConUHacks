@@ -1,7 +1,31 @@
 import json 
+import boto3
 
 with open('./dict/out.json') as f:
     glossary = json.load(f)
+
+
+
+KEY = "test_ocr.png"
+
+aws_id = 'AKIAII5QLFINZ4EFSX4Q'
+aws_pass = 'mztQG5rsG3nGLF2g728YhPSO50YuXYQPu99cMGxg'
+
+def detect_text(img, region="us-east-1"):
+    rekognition = boto3.client("rekognition", aws_access_key_id=aws_id, aws_secret_access_key=aws_pass)
+    
+    with open(img, "rb") as imageFile:
+          f = imageFile.read()
+          img_bytes = bytearray(f)
+      
+    response = rekognition.detect_text(
+        Image={
+            'Bytes': img_bytes,
+            }
+        )
+
+    return response
+
 
 def add_sentence(word, desc, return_sentence):
     if desc:
@@ -62,9 +86,10 @@ def translate(raw_text):
     #one word dict
     # for word in sentences:
 
-text = "a fine Abbacchio with a side of Amaretti topped with fresh shavings of Noce Moscata Bao bun"
 
-print(translate(text))
+
+# text = "a fine Abbacchio with a side of Amaretti topped with fresh shavings of Noce Moscata Bao bun"
+# print(translate(text))
 
     
 
