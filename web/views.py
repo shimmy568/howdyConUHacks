@@ -13,6 +13,9 @@ from PIL import Image
 import base64
 from io import BytesIO
 
+
+import json
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # my_file = os.path.join(BASE_DIR, 'myfile.txt')
 
@@ -44,11 +47,8 @@ class Index(MethodView):
 
         if img:
         #     #crop image
-                    # print(img[0:100], img[-100:])
             im = Image.open(BytesIO(base64.b64decode(img)))
-            # print(im)
-            # print(type(im))
-            # im.save("img4.png")
+
 
             # im = im.crop((x1, y1, x2, y2))
             im.save("out.png")
@@ -59,20 +59,14 @@ class Index(MethodView):
                 b_img = bytearray(f)
 
 
-            
-            # with BytesIO() as output:
-            #     im.save(output, 'BMP')
-            #     b_img = output.getvalue()
-
             aws_return = detect_text(b_img)
-            print(aws_return)
 
-        #     #text from OCR
-        #     aws_return = detect_text(img)
-        #     # text = "a fine Abbacchio with a side of Amaretti topped with fresh shavings of Noce Moscata Bao bun"
-
-        #     translate(aws_return['DetectedText'])
-
+            words = ""
+            for line in (aws_return['TextDetections']):
+                words = words + ' ' + line.get('DetectedText', '')
+            
+            print(translate(words))
+            # print(words)
 
         else:
             return make_response('error: no image uploaded', '500', {'Content-Type': 'text'})
