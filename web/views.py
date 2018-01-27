@@ -23,6 +23,14 @@ class Index(MethodView):
 
         if img:
             print('test')
+
+            #text from OCR
+
+            text = "a fine Abbacchio with a side of Amaretti topped with fresh shavings of Noce Moscata Bao bun"
+
+            translate(text)
+
+
         else:
             return make_response('error: no image uploaded', '500', {'Content-Type': 'text'})
 
