@@ -102,6 +102,26 @@ $("#bottom_overlay").on("touchmove", function(e){
     console.log('nani');
 });
 
+$("#upload-photo").click(function(){
+    url = 'http://127.0.0.1:5000/';
+    im = snap.src;
+
+    let data = {
+
+        'img': im.substring(im.indexOf(',')+1, im.length),
+    }
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        dataType: "json",
+        success: function (resultData) {
+            console.log('Success')
+        },
+    });
+});
+
 console.log(delete_photo_btn);
 
 delete_photo_btn.addEventListener("click", function (e) {
