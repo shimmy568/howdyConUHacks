@@ -27,12 +27,18 @@
                 <a href="#" id="take-photo" title="Take Photo">
                     <img src="static/takePhotoButton.svg" width="75px" height="75px" alt="">
                 </a>
+                <a href="#" id="delete-photo" title="Delete Photo" class="disabled">
+                    <i class="material-icons">delete</i>
+                </a>
+                <a href="#" id="upload-photo" download="selfie.png" title="Save Photo" class="disabled">
+                    <i class="material-icons">done</i>
+                </a>
             </div>
 
             <div class="overlay">
-                <div class="top"></div>
+                <div id="top_overlay" class="top"></div>
 
-                <div class="bottom"></div>
+                <div id="bottom_overlay" class="bottom"></div>
             </div>
 
             <!-- Hidden canvas element. Used for taking snapshot of video. -->
