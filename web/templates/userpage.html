@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>GCAC</title>
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='imgs/icons/mapleleaf.png') }}">
+
+    <link href="{{ url_for('static', filename='css/base.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+
+</head>
+
+<body>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <a class="hover-img" href={{facebook}}>
+                <img class="social-image" src="{{ url_for('static', filename='imgs/icons/facebook.png') }}"></img>
+            </a>
+        </div>
+
+        <div class="col-lg-4">
+            <a class="hover-img" href={{twitter}}>
+                <img class="social-image" src="{{ url_for('static', filename='imgs/icons/twitter.png') }}"></img>
+            </a>
+        </div>
+
+        <div class="col-lg-4">
+            <a class="hover-img" href={{instagram}}>
+                <img class="social-image" src="{{ url_for('static', filename='imgs/icons/instagram.png') }}"></img>
+            </a>
+
+        </div>
+        <!-- <div class="col-lg-3">
+            <a class="hover-img">
+                <img class="social-image" src="{{ url_for('static', filename='imgs/icons/facebook.png') }}"></img>
+            </a>
+        </div> -->
+    </div>
+
+
+</body>
+
+<style>
+    .hover-img:hover{
+        opacity: 0.5;
+    }
+    .social-image {
+        width: 33.33vw;
+    }
+</style>
+
+</html>

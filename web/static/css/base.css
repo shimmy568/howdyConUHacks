@@ -1,0 +1,174 @@
+html{
+    height: 100%;
+}
+body{
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+.header{
+    position: fixed;
+    height: 96px;
+    background-color: #3a6f96;
+    width: 100%;
+    z-index: 100;
+    padding-bottom: 96px;
+}
+.header-img{
+    padding-top: 8px;
+    padding-left: 8px;
+    float: left;
+    height: 96px;
+}
+.header-text{
+    padding-top: 48px;
+    display: inline-block;
+    font-size: 150%;
+    color: black;
+    margin-top: 8px;
+    margin-left: 8px;
+}
+.navbar-text{
+    margin-top: 5px;
+    color: #FFADAD;
+}
+.center{
+    text-align: center;
+}
+nav.navbar{
+    width: 100%;
+    /* height: 64px; */
+    background-color: #3a6f96;
+    position: fixed;
+    border-bottom: solid 5px #0B161F;
+    z-index: 99;
+}
+.container{
+    padding-top: 96px;
+    margin-left: 5%;
+    margin-right: 5%;
+    word-break: break-all;
+    background-color: #E4E2E2;
+    height: 100%;
+}
+.content{
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+
+button.accordion {
+    background-color: #113C5E;
+    color: #0052CE;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    padding-right: 0px;
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 130%;
+    transition: 0.4s;
+}
+button.accordion:focus{
+    outline: none;
+}
+button.accordion.active, button.accordion:hover {
+    background-color: #0052CE;
+    color: #113C5E;
+}
+
+div.panel {
+    display: none;
+    padding: 0px;
+}
+p.accordion-text{
+    font-size: 120%;
+    color: #0052CE;
+    padding: 0px;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+.nav-link{
+    font-size: 125%;
+    font-weight: bold;
+}
+.logos{
+    width: 100%;
+}
+hr.star-light,
+hr.star-dark {
+  padding: 0;
+  border: none;
+  border-top: solid 5px;
+  text-align: center;
+  max-width: 250px;
+  margin: 25px auto 30px;
+}
+hr.star-light:after,
+hr.star-dark:after {
+  /* content: "\2605"; */
+  content: "🍁";
+  font-family: FontAwesome;
+  display: inline-block;
+  position: relative;
+  top: -0.8em;
+  font-size: 2em;
+  padding: 0 0.25em;
+}
+hr.star-light:after {
+  background-color: #3a6f96;
+  color: #BBBBBB;
+}
+
+hr.star-light {
+    border-color: #BBBBBB;
+}
+hr.star-dark:after {
+    background-color: #E4E2E2;
+    color: #3a6f96;
+  }
+hr.star-dark{
+    border-color: #3a6f96;
+}
+
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

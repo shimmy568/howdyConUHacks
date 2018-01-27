@@ -1,0 +1,40 @@
+{% extends "base.html" %} {% block content %}
+
+<label>FaceBook</label>
+<input type=text id="facebook"></input>
+<label>Twitter</label>
+<input type=text id="twitter"></input>
+<label>Instagram</label>
+<input type=text id="instagram"></input>
+
+<button id="save"> Save </button>
+
+
+<script type="text/javascript">
+    $("#save").on('click', function () {
+
+        url = 'http://127.0.0.1:5000/save';
+
+        let data = {
+            'facebook': $("#facebook").val(),
+            'twitter': $('#twitter').val(),
+            'instagram': $('#instagram').val(),
+        }
+        console.log(data)
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            dataType: "json",
+            success: function(resultData){
+                console.log('Success')
+            },
+      });
+        // $.ajax({
+        //     type: "POST",
+        //     url: url,
+        //     data: data,
+        //     dataType: dataType
+        // });
+    });
+</script> {% endblock %}

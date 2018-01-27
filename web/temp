@@ -1,0 +1,105 @@
+     
+
+class MakePost(MethodView):
+    @login_required
+    def get(self):
+        headers = {'Content-Type': 'text/html'}
+        return make_response(render_template('make_post.html'), 200, headers)
+
+    @login_required
+    def post(self):
+        print('Test')
+        try:
+            title = request.form['title']
+            body = request.form['body']
+            # csv = request.files['csv_upload']
+            csv = request.files['csv_upload']
+        except Exception as e:
+            print(e)
+        # else:
+            # print("Make Post", title, body, csv.filename, csv.read())
+
+        new_file = CSV(name=csv.filename, data=csv.read())
+        
+        try:
+            db.session.add(new_file)
+            db.session.commit()
+            db.session.add(Posts(title=title, user_id=current_user.id, body=body, csv=new_file.id))
+            db.session.commit()
+
+        except Exception as e:
+            print(e)
+
+
+
+        headers = {'Content-Type': 'text/html'}
+        # return make_response(render_template('make_post.html'), 200, headers)
+        return Response('Good')
+
+class GetLiked(MethodView):
+    @login_required
+    def get(self):
+        post_id = request.args['post_id']
+
+        if post_id:
+            if db.session.query(Votes).filter_by(post_id=post_id, user_id=current_user.id).first():
+                # return Respones(jsonify({'vote' : 'true'}))
+                return Response('true')
+            else:
+                return Response('false')
+                # return Response(jsonify({'vote' : 'false'}))
+        else:
+            return Response('no post id given')
+
+class GetGraphs(MethodView): # API for front end
+    def get(self):
+        posts = utils.get_post_data()[:5] #posts = [(Post, int(score))]
+        # for post in posts:
+        data = []
+        for post in posts:
+            a = db.session.query(CSV).filter_by(id=post[0].csv).one()
+
+            csv_data = utils.csv_to_dict(a.data.decode('utf-8'))
+
+            print(csv_data)
+
+            data.append({'x' : csv_data['x'], 'y' : csv_data['y']})
+            # print()
+            # print(post[0].csv)
+
+        graphs = {
+            1:{'width':str((posts[0][1] / (posts[0][1] + posts[1][1]))*100) + '%', 'title' : posts[0][0].title, 'data' : data[0], 'id' : posts[0][0].id}, 
+            2:{'width':str((posts[1][1] / (posts[0][1] + posts[1][1]))*100) + '%', 'title' : posts[1][0].title, 'data' : data[1], 'id' : posts[1][0].id},
+            3:{'width':str((posts[2][1] / (posts[2][1] + posts[3][1] + posts[4][1]))*100) + '%', 'title' : posts[2][0].title, 'data' : data[2], 'id' : posts[2][0].id}, 
+            4:{'width':str((posts[3][1] / (posts[2][1] + posts[3][1] + posts[4][1]))*100) + '%', 'title' : posts[3][0].title, 'data' : data[3], 'id' : posts[3][0].id},
+            5:{'width':str((posts[4][1] / (posts[2][1] + posts[3][1] + posts[4][1]))*100) + '%', 'title' : posts[4][0].title, 'data' : data[4], 'id' : posts[4][0].id},
+        }
+        return jsonify(graphs)
+
+class GetGraph(MethodView):
+    def get(self):
+        post_id = request.args['post_id']
+
+        if post_id:
+            # posts = utils.get_post_data()[:5] #posts = [(Post, int(score))]
+            post = db.session.query(Posts).filter_by(id=post_id).first()
+
+            data = []
+            a = db.session.query(CSV).filter_by(id=post.csv).one()
+
+            csv_data = utils.csv_to_dict(a.data.decode('utf-8'))
+
+            data.append({'x' : csv_data['x'], 'y' : csv_data['y']})
+
+            graphs = {
+                1:{'width':'100%', 'title' : post.title, 'data' : data[0], 'id' : post.id}, 
+            }
+            return jsonify(graphs)
+        else: 
+            return Response('no post_id specified')
+
+class Graph(MethodView):
+    # @login_required
+    def get(self):
+        headers = {'Content-Type': 'text/html'}
+        return make_response(render_template('graph.html'), 200, headers)

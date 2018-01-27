@@ -1,0 +1,55 @@
+.lax-body{
+    padding-top: 1%;
+    padding-bottom: 1%;
+    background-color:#3a6f96;
+}
+
+.lax-header{
+    font-size: 300%;
+    color: #BBBBBB;
+}
+.lax-subtitle{
+    font-size: 200%;
+    color: #BBBBBB;
+}
+.lax-text{
+    font-size: 150%;
+    color: #BBBBBB;
+}
+.lax-link{
+    font-size: 150%;
+    color: #BBBBBB;
+}
+.lax-container{
+    margin: 2.5%;
+}
+.icons{
+    width: 33%;
+    padding-bottom: 15px;
+}
+.date{
+    font-size: 100%;
+    padding-bottom: 0px;
+    color: #BBBBBB;
+}
+.link{
+    font-size: 150%;
+    color: #BBBBBB;
+}
+
+ul.lax-ul{
+    color: #BBBBBB;
+    font-size: 120%;
+}
+.members-btn{
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    border: Transparent;
+}
+.members-btn:focus{
+    outline:0;
+}
