@@ -15,6 +15,6 @@ Sub in your own AWS ACCESS KEY ID and SECRET ACCESS KEY to use the API
 
 `pip install --upgrade google-cloud`
 
-Create Access Key on GCP and download the json file. Set a new environment var GOOGLE_APPLICATION_CREDENTIALS to the path of the json file.
+Create Service account key on GCP and download the json file. Set a new environment var GOOGLE_APPLICATION_CREDENTIALS to the path of the json file.
 
 
