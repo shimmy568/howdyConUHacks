@@ -107,7 +107,10 @@ $("#upload-photo").click(function(){
     im = snap.src;
 
     let data = {
-
+        'x': ($("#snap").width - $(document).width()) / 2,
+        'y': $("#top_overlay").height(),
+        'width': $(document).width(),
+        'height': $(document).height() - $('#bottom_overlay').height(),
         'img': im.substring(im.indexOf(',')+1, im.length),
     }
 
