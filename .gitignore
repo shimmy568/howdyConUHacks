@@ -8,6 +8,8 @@ __pycache__/
 
 google_api_key.json
 
+secrets.json
+
 # Distribution / packaging
 .Python
 env/
