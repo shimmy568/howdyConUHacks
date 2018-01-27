@@ -5,7 +5,6 @@ var video = document.querySelector('#camera-stream'),
     controls = document.querySelector('.controls'),
     take_photo_btn = document.querySelector('#take-photo'),
     delete_photo_btn = document.querySelector('#delete-photo'),
-    download_photo_btn = document.querySelector('#download-photo'),
     error_message = document.querySelector('#error-message');
 
 
@@ -73,8 +72,9 @@ take_photo_btn.addEventListener("click", function (e) {
     image.classList.add("visible");
 
     // Enable delete and save buttons
-    delete_photo_btn.classList.remove("disabled");
-    download_photo_btn.classList.remove("disabled");
+    //delete_photo_btn.classList.remove("disabled");
+    
+    $('#camera-stream').hide();
 
     // Set the href attribute of the download button to the snap url.
     download_photo_btn.href = snap;
@@ -94,8 +94,9 @@ delete_photo_btn.addEventListener("click", function (e) {
     image.classList.remove("visible");
 
     // Disable delete and save buttons
-    delete_photo_btn.classList.add("disabled");
-    download_photo_btn.classList.add("disabled");
+    //delete_photo_btn.classList.add("disabled");
+
+    $('#camera-stream').show();
 
     // Resume playback of stream.
     video.play();
@@ -118,8 +119,8 @@ function takeSnapshot() {
     var hidden_canvas = document.querySelector('canvas'),
         context = hidden_canvas.getContext('2d');
 
-    var width = video.videoWidth,
-        height = video.videoHeight;
+    var width = video.clientWidth,
+        height = video.clientHeight;
 
     console.log(width);
     console.log(height);
