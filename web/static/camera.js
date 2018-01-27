@@ -99,7 +99,6 @@ delete_photo_btn.addEventListener("click", function (e) {
 
     // Resume playback of stream.
     video.play();
-
 });
 
 
@@ -121,6 +120,9 @@ function takeSnapshot() {
 
     var width = video.videoWidth,
         height = video.videoHeight;
+
+    console.log(width);
+    console.log(height);
 
     if (width && height) {
 

@@ -8,11 +8,10 @@
     <title>Foodie</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="static/main.css">
 </head>
 
 <body>
-    <h3>Demo: Take a Selfie With JavaScript</h3>
 
     <div class="container">
 
@@ -25,15 +24,13 @@
             <p id="error-message"></p>
 
             <div class="controls">
-                <a href="#" id="delete-photo" title="Delete Photo" class="disabled">
-                    <i class="material-icons">delete</i>
-                </a>
                 <a href="#" id="take-photo" title="Take Photo">
                     <i class="material-icons">camera_alt</i>
                 </a>
-                <a href="#" id="download-photo" download="selfie.png" title="Save Photo" class="disabled">
-                    <i class="material-icons">file_download</i>
-                </a>
+            </div>
+
+            <div class="overlay">
+                
             </div>
 
             <!-- Hidden canvas element. Used for taking snapshot of video. -->
@@ -42,7 +39,7 @@
         </div>
 
     </div>
-    <script src="camera.js"></script>
+    <script src="static/camera.js"></script>
 </body>
 
 </html>

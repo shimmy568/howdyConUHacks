@@ -6,7 +6,7 @@ import random, string, time
 
 #CONFIG AND INIT
 app = Flask(__name__)
-app.config['DEBUG'] = False
+app.config['DEBUG'] = True
 
 #SQL
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///main.db'
