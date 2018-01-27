@@ -53,9 +53,9 @@ class Index(MethodView):
             im = im.crop((x1, y1, x2, y2))
             # im.save("img.png")
 
-            # with BytesIO() as output:
-                # im.save(output, 'BMP')
-                # b_img = output.getvalue()
+            with BytesIO() as output:
+                im.save(output, 'BMP')
+                b_img = output.getvalue()
 
             aws_return = detect_text(b_img)
             # aws_return = detect_text('test_ocr.png')
