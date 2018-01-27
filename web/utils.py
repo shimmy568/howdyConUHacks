@@ -1,26 +1,26 @@
 import json 
 import boto3
+import config
 
 with open('./dict/out.json') as f:
     glossary = json.load(f)
 
 
-
-KEY = "test_ocr.png"
+# KEY = "test_ocr.png"
 
 aws_id = 'AKIAII5QLFINZ4EFSX4Q'
 aws_pass = 'mztQG5rsG3nGLF2g728YhPSO50YuXYQPu99cMGxg'
 
 def detect_text(img, region="us-east-1"):
-    rekognition = boto3.client("rekognition", aws_access_key_id=aws_id, aws_secret_access_key=aws_pass)
+    rekognition = boto3.client("rekognition", region, aws_access_key_id=config.secrets['aws_id'], aws_secret_access_key=config.secrets['aws_secret'])
     
-    with open(img, "rb") as imageFile:
-          f = imageFile.read()
-          img_bytes = bytearray(f)
+    # with open(img, "rb") as imageFile:
+    #       f = imageFile.read()
+    #       img = bytearray(f)
       
     response = rekognition.detect_text(
         Image={
-            'Bytes': img_bytes,
+            'Bytes': img,
             }
         )
 
