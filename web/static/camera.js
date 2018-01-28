@@ -118,10 +118,11 @@ $("#upload-photo").click(function(){
         type: "POST",
         url: url,
         data: data,
+        async: true,
         dataType: "json",
         success: function (resultData) {
             console.log('Success')
-            console.log(resultData)
+            console.log('result', resultData)
         },
     });
 });
