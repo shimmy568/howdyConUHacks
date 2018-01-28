@@ -23,15 +23,12 @@ navigator.getMedia = (navigator.getUserMedia ||
 
 navigator.mediaDevices.enumerateDevices().then(function (sourceInfos) {
     var videoSource = null;
-    console.log(sourceInfos);
     for (var i = 0; i != sourceInfos.length; ++i) {
         var sourceInfo = sourceInfos[i];
-        if (sourceInfo.kind === 'video') {
-            console.log(sourceInfo.id, sourceInfo.label || 'camera');
+        if (sourceInfo.kind.indexOf('video') != -1) {
+            console.log(sourceInfo);
 
-            videoSource = sourceInfo.id;
-        } else {
-            console.log('Some other kind of source: ', sourceInfo);
+            videoSource = sourceInfo.deviceId;
         }
     }
 
@@ -60,12 +57,11 @@ function sourceSelected(videoSource) {
         }
     };
 
-    navigator.getUserMedia(constraints, function (stream) {
+    navigator.getMedia(constraints, function (stream) {
 
             // Create an object URL for the video stream and
             // set it as src of our HTLM video element.
             video.src = window.URL.createObjectURL(stream);
-
             // Play the video element to start the stream.
             video.play();
             video.onplay = function () {
@@ -79,7 +75,7 @@ function sourceSelected(videoSource) {
         });
 }
 
-if (!navigator.getMedia) {
+/* if (!navigator.getMedia) {
     displayErrorMessage("Your browser doesn't have support for the navigator.getUserMedia interface.");
 } else {
 
@@ -107,7 +103,7 @@ if (!navigator.getMedia) {
         }
     );
 
-}
+} */
 
 
 
@@ -183,7 +179,6 @@ $("#bottom_overlay").on("touchmove", function (e) {
     if (photoTaken && $(document).height() - e.touches[0].clientY > $(document).height() * 0.2 && $(document).height() - e.touches[0].clientY < $(document).height() * 0.45) {
         $("#bottom_overlay").css('height', $(document).height() - e.touches[0].clientY);
     }
-    console.log('nani');
 });
 
 $("#upload-photo").click(function () {
@@ -216,7 +211,6 @@ $("#upload-photo").click(function () {
 console.log(delete_photo_btn);
 
 delete_photo_btn.addEventListener("click", function (e) {
-    console.log("hey");
     e.preventDefault();
 
     photoTaken = false;
