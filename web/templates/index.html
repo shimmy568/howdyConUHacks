@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="static/main.css">
 </head>
 
-<body onload="modBodyIfMobile()">
+<body onclick="close_modal()" onload="modBodyIfMobile()">
     <div id="mobileQRCodeDisplay" style="display: none">
         <h1 id="logo">FOODIE</h1>
         <img src="static/qr.png" alt="qrcodeToWebiste">
@@ -55,9 +55,11 @@
     <div id="main_container2">
         <h5 id="logo_mobile">FOODIE</h5>
         <h6 class="header_des">DESCRIPTION</h6>
-        <p id="description">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."</p>
+        <p id="description">"Loading Results"</p>
         <h6 style="padding-top: 60px" class="header_des">SUGGESTED IMAGES</h6>
+        <div id="modal">
+            <h6 id="modal_text">THINKING</h6>
+        </div>
     </div>
     <script src="static/camera.js"></script>
     <script>
@@ -77,6 +79,7 @@
         function modBodyIfMobile() {
             if (!mobilecheck()) {
                 $("#mobileQRCodeDisplay").show();
+                $("#start-camera").hide();
             }
         }
     </script>
