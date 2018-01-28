@@ -1,6 +1,6 @@
 var photoTaken = false;
 
-var baseurl = "http://127.0.0.1:5000/";
+var baseurl = "/";
 
 // References to all the element we will need.
 var video = document.querySelector('#camera-stream'),

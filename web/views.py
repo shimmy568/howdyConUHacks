@@ -19,6 +19,13 @@ import json
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # my_file = os.path.join(BASE_DIR, 'myfile.txt')
 
+class About(MethodView):
+    def get(self):
+        return render_template('about.html') 
+
+class Team(MethodView):
+    def get(self):
+        return render_template('team.html') 
 
 class Index(MethodView):
     def get(self):

@@ -4,6 +4,7 @@ import config
 
 import requests
 
+from bs4 import BeautifulSoup
 
 with open('./dict/out.json') as f:
     glossary = json.load(f)
@@ -46,10 +47,18 @@ def google_translate(sentence):
         print(r.status_code)
         return None
 
+def get_image(query):
+    cx = "010727462276892999876:q8hxbqk3uvq"
+    url = "https://www.googleapis.com/customsearch/v1?key=%s&cx=%s&searchType=image&q=%s"%(config.secrets['google_key'], cx, query)
+    r = requests.get(url)
+
+    # print(r)
+    # print(r.text)
+    return json.loads(r.text).get('items', [])[0].get('link', None)
 
 def add_sentence(word, desc, return_sentence):
     if desc:
-        return_sentence.append({'word' : word, 'desc' : desc})
+        return_sentence.append({'word' : word, 'desc' : desc, 'img':get_image(desc)})
     else:
         return_sentence.append(word)
     return return_sentence
@@ -126,10 +135,10 @@ def translate(raw_text):
             #get translations, then insert the words back into return_sentence based off of the positions values in pos
             
             for k in range(len(goog_out['data']['translations'])):
-                return_sentence.insert(pos[k][1], {'word' : pos[k][0], 'desc' : goog_out['data']['translations'][k]['translatedText']})
+                return_sentence.insert(pos[k][1], {'word' : pos[k][0], 'desc' : goog_out['data']['translations'][k]['translatedText'], 'img':get_image(goog_out['data']['translations'][k]['translatedText'])})
 
     except Exception as e:
-        # print(e)
+        print(e)
         for k in pos:
             return_sentence.insert(k[1], k[0])
     
@@ -140,5 +149,5 @@ def translate(raw_text):
 
 
     
-
+# print(get_image('steak'))
 # print(translate('a fine fait manger abbacchio cavolo'))
