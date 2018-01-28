@@ -64,11 +64,14 @@ class Index(MethodView):
             aws_return = detect_text(b_img)
 
             words = ""
+            print(aws_return['TextDetections'])
+            # words = aws_return['TextDetections'][0]['DetectedText']
             for line in (aws_return['TextDetections']):
+                print('lines', line['DetectedText'])
                 words = words + ' ' + line.get('DetectedText', '')
-            
+            print(words[:len(words)//2])
             # print(translate(words))
-            return jsonify(translate(words))
+            return jsonify(translate(words[:len(words)//2])) #my way of fixing the double output LOL
             # print(words)
 
         else:
