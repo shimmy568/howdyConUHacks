@@ -49,6 +49,9 @@ def translate(raw_text):
         contin = True
         word = sentences[i]
         desc = None
+
+        #if word is in blacklist then continue and add it to the list as a string
+
         if len(sentences)-2 > i:
             raw_word = sentences[i] + ' ' + sentences[i+1] + ' ' + sentences[i+2]
             
@@ -75,6 +78,9 @@ def translate(raw_text):
                 raw_word
                 desc = glossary['1'][word]
                 contin = False
+
+
+        #if the item gets here before continuing then search for it on wikipedia and return the first sentance.
 
         return_sentence = add_sentence(word, desc, return_sentence)
 

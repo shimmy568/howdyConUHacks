@@ -14,44 +14,46 @@
 <body onload="modBodyIfMobile()">
     <div id="mobileQRCodeDisplay" style="display: none">
         <h1 id="logo">FOODIE</h1>
-        <img src="static/qrcode.png" alt="qrcodeToWebiste">
+        <img src="static/qr.png" alt="qrcodeToWebiste">
         <h2>Visit Our Mobile WebApp</h2>
     </div>
-    <div class="container">
-        <div class="app">
-            <a href="#" id="start-camera" class="visible">Touch here to start the app.</a>
-            <video id="camera-stream"></video>
-            <img id="snap">
+    <div id="main_container1">
+        <div class="container">
+            <div class="app">
+                <h5 id="logo_mobile">FOODIE</h5>
+                <a href="#" id="start-camera" class="visible">Touch here to start the app.</a>
+                <video id="camera-stream"></video>
+                <img id="snap">
 
-            <p id="error-message"></p>
+                <p id="error-message"></p>
 
-            <div class="controls">
-                <!-- <button id="uuploadploadbtn">
-                    upload
-                </button> -->
-                <a href="#" id="take-photo" title="Take Photo">
-                    <img src="static/takePhotoButton.svg" width="75px" height="75px" alt="">
-                </a>
-                <a href="#" id="delete-photo" title="Delete Photo" class="disabled">
-                    <i class="material-icons">delete</i>
-                </a>
-                <a href="#" id="upload-photo" title="Save Photo" class="disabled">
-                    <i class="material-icons">done</i>
-                </a>
+                <div class="controls">
+                    <a href="#" id="take-photo" title="Take Photo">
+                        <img src="static/camera.png" width="75px" height="75px" alt="">
+                    </a>
+                    <a href="#" id="delete-photo" title="Delete Photo" class="disabled">
+                        <img class="icon_img" src="static/delete.png">
+                    </a>
+                    <a href="#" id="upload-photo" title="Save Photo" class="disabled">
+                        <img class="icon_img" src="static/upload.png">
+                    </a>
+                </div>
+
+
+                <div class="overlay">
+                    <div id="top_overlay" class="top"></div>
+
+                    <div id="bottom_overlay" class="bottom"></div>
+                </div>
+
+                <!-- Hidden canvas element. Used for taking snapshot of video. -->
+                <canvas></canvas>
+
             </div>
-
-
-            <div class="overlay">
-                <div id="top_overlay" class="top"></div>
-
-                <div id="bottom_overlay" class="bottom"></div>
-            </div>
-
-            <!-- Hidden canvas element. Used for taking snapshot of video. -->
-            <canvas></canvas>
-
         </div>
-
+    </div>
+    <div id="main_container2">
+        <h5 id="logo_mobile">FOODIE</h5>
     </div>
     <script src="static/camera.js"></script>
     <script>

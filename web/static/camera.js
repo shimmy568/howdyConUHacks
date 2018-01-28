@@ -1,5 +1,7 @@
 var photoTaken = false;
 
+var baseurl = "https://marcframe.pythonanywhere.com"
+
 // References to all the element we will need.
 var video = document.querySelector('#camera-stream'),
     image = document.querySelector('#snap'),
@@ -104,6 +106,43 @@ if (!navigator.getMedia) {
 }
 
 
+
+// Mobile browsers cannot play video without user input,
+// so here we're using a button to start it manually.
+start_camera.addEventListener("click", function (e) {
+
+    e.preventDefault();
+
+    // Start video playback manually.
+    video.play();
+    showVideo();
+
+});
+
+
+var state = 0;
+
+function update_view(){
+    if (state == 0){
+        $("#take-photo").css("display", "block");
+        $("#delete-photo").css("display", "none");
+        $("#upload-photo").css("display", "none");
+        $("#main_container1").css("display", "block");
+        $("#main_container2").css("display", "none");
+    } else if (state == 1){
+        $("#take-photo").css("display", "none");
+        $("#delete-photo").css("display", "block");
+        $("#upload-photo").css("display", "block");
+        $("#main_container1").css("display", "block");
+        $("#main_container2").css("display", "none");
+    } else if (state == 2){
+        $("#main_container1").css("display", "none");
+        $("#main_container2").css("display", "block");
+    }
+}
+
+
+
 take_photo_btn.addEventListener("click", function (e) {
 
     photoTaken = true;
@@ -112,7 +151,7 @@ take_photo_btn.addEventListener("click", function (e) {
 
     var snap = takeSnapshot();
     picture_data = snap
-    // Show image. 
+    // Show image.
     image.setAttribute('src', snap);
     image.classList.add("visible");
 
@@ -125,6 +164,8 @@ take_photo_btn.addEventListener("click", function (e) {
 
     // Pause video playback of stream.
     video.pause();
+    state=1;
+    update_view();
 
 });
 
@@ -142,9 +183,9 @@ $("#bottom_overlay").on("touchmove", function (e) {
 });
 
 $("#upload-photo").click(function () {
-    url = 'localhost:5000/';
-    im = snap.src;
+    url = baseurl;
 
+    im = snap.src;
     let data = {
         'x': Math.round(($("#snap").width() - $(document).width()) / 2),
         'y': Math.round($("#top_overlay").height()),
@@ -152,15 +193,18 @@ $("#upload-photo").click(function () {
         'height': Math.round($(document).height() - $('#bottom_overlay').height() - $('#top_overlay').height()),
         'img': im.substring(im.indexOf(',') + 1, im.length),
     }
+    state=2;
+    update_view();
     console.log(data)
     $.ajax({
         type: "POST",
         url: url,
         data: data,
+        async: true,
         dataType: "json",
         success: function (resultData) {
             console.log('Success')
-            console.log(resultData)
+            console.log('result', resultData)
         },
     });
 });
@@ -173,6 +217,8 @@ delete_photo_btn.addEventListener("click", function (e) {
 
     photoTaken = false;
 
+    state = 0;
+    update_view();
     // Hide image.
     image.setAttribute('src', "");
     image.classList.remove("visible");
@@ -203,7 +249,7 @@ function showVideo() {
 
 
 function takeSnapshot() {
-    // Here we're using a trick that involves a hidden canvas element.  
+    // Here we're using a trick that involves a hidden canvas element.
 
     var hidden_canvas = document.querySelector('canvas'),
         context = hidden_canvas.getContext('2d');
