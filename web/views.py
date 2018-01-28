@@ -31,11 +31,13 @@ class Index(MethodView):
         # print(request.args)
 
         img = request.form.get('img')
-        y1 = int(request.form.get('y1', '0'))
-        y2 = int(request.form.get('y2', '500'))
-        x1 = int(request.form.get('x1', '0'))
-        x2 = int(request.form.get('x2', '500'))
+        y = int(request.form.get('y', '0'))
+        h = int(request.form.get('height', '500'))
+        x = int(request.form.get('x', '0'))
+        w = int(request.form.get('width', '500'))
 
+
+        print(y,h,x,w)
         # print(img)
         # im = b64decode(img)
         # im = Image(img)
@@ -50,7 +52,7 @@ class Index(MethodView):
             im = Image.open(BytesIO(base64.b64decode(img)))
 
 
-            # im = im.crop((x1, y1, x2, y2))
+            im = im.crop((x, y, x+w, y+h))
             im.save("out.png")
 
             with open('out.png', "rb") as imageFile:

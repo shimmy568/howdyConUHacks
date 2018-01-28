@@ -107,13 +107,13 @@ $("#upload-photo").click(function(){
     im = snap.src;
 
     let data = {
-        'x': ($("#snap").width - $(document).width()) / 2,
-        'y': $("#top_overlay").height(),
-        'width': $(document).width(),
-        'height': $(document).height() - $('#bottom_overlay').height(),
+        'x': Math.round(($("#snap").width() - $(document).width()) / 2),
+        'y': Math.round($("#top_overlay").height()),
+        'width': Math.round($(document).width()),
+        'height': Math.round($(document).height() - $('#bottom_overlay').height() - $('#top_overlay').height()),
         'img': im.substring(im.indexOf(',')+1, im.length),
     }
-
+    console.log(data)
     $.ajax({
         type: "POST",
         url: url,

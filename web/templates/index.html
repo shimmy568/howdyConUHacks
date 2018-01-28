@@ -24,9 +24,9 @@
             <p id="error-message"></p>
 
             <div class="controls">
-                <button id="uploadbtn">
+                <!-- <button id="uuploadploadbtn">
                     upload
-                </button>
+                </button> -->
                 <a href="#" id="take-photo" title="Take Photo">
                     <img src="static/takePhotoButton.svg" width="75px" height="75px" alt="">
                 </a>
@@ -52,37 +52,7 @@
 
     </div>
     <script src="static/camera.js"></script>
-    <script>
 
-
-        $("#uploadbtn").on('click', function () {
-            // console.log('test')
-            url = 'http://127.0.0.1:5000/';
-            // console.log('test')
-            // console.log($("#snap"))
-            // console.log(snap.src)
-            // console.log(snap)
-            im = snap.src;
-            // console.log(im.substring(im.indexOf(',')+1, im.length))
-            // console.log(typeof im)
-
-            let data = {
-
-                'img': im.substring(im.indexOf(',')+1, im.length),
-            }
-            console.log(data)
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: data,
-                dataType: "json",
-                success: function (resultData) {
-                    console.log('Success')
-                },
-            });
-
-        });
-    </script>
 </body>
 
 </html>
