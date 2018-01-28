@@ -297,3 +297,78 @@ video, .app img#snap {
     padding-top: 5px;
     padding-bottom: 5px;
 }
+
+
+.container_2 {
+	width: 100%;
+	margin: 0 auto;
+  float: right;
+  display: inline-block;
+}
+
+header {
+  background: transparent;
+  position: fixed;
+  width: 100%;
+  right: 100px;
+  z-index: 10000;
+  font-family: "Titillium Web", sans-serif;
+  font-size: 20px;
+}
+
+header::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.logo {
+  float: left;
+  padding: 10px 0;
+}
+
+nav {
+  float: right;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav li {
+  display: inline-block;
+  margin-left: 70px;
+  padding-top: 15px;
+  margin-top: 20px;
+
+  position: relative;
+}
+
+nav a {
+  color: #FFE6E6;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+nav a:hover {
+  color: #FFE6E6;
+}
+
+nav a::before {
+  content: '';
+  display: block;
+  height: 5px;
+  background-color: #FFE6E6;
+
+  position: absolute;
+  top: 0;
+  width: 0%;
+
+  transition: all ease-in-out 250ms;
+}
+
+nav a:hover::before {
+  width: 100%;
+}
