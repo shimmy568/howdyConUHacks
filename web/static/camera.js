@@ -25,6 +25,7 @@ navigator.mediaDevices.enumerateDevices().then(function (sourceInfos) {
     var videoSource = null;
     for (var i = 0; i != sourceInfos.length; ++i) {
         var sourceInfo = sourceInfos[i];
+        alert(sourceInfo.kind);
         if (sourceInfo.kind.indexOf('video') != -1) {
             console.log(sourceInfo);
 
