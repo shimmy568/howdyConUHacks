@@ -27,11 +27,13 @@ app.config['SESSION_TYPE'] = 'filesystem'
 #         db.create_all()
 #         db.session.commit()
 
-from views import Index 
+from views import Index, About, Team
 
 # app.add_url_rule('/register', view_func=Register.as_view('register'))
 
 app.add_url_rule('/', view_func=Index.as_view('Index'))
+app.add_url_rule('/team', view_func=Team.as_view('Team'))
+app.add_url_rule('/about', view_func=About.as_view('about'))
 
 #API
 
