@@ -62,7 +62,7 @@ def get_image(query):
         i += 1
         
         print(goog_data[i]['image'].keys())
-        a = goog_data[i].get('image', {}).get('thumbnailLink', None)#..get('link', None)
+        a = goog_data[i].get('link', None)#.get('image', {}).get('thumbnailLink', None)#.
         if a:
             links.append(a)
         goog_data.pop()
