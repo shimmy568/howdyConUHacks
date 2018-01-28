@@ -121,6 +121,7 @@ $("#upload-photo").click(function(){
         dataType: "json",
         success: function (resultData) {
             console.log('Success')
+            console.log(resultData)
         },
     });
 });

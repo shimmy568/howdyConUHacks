@@ -67,7 +67,8 @@ class Index(MethodView):
             for line in (aws_return['TextDetections']):
                 words = words + ' ' + line.get('DetectedText', '')
             
-            print(translate(words))
+            # print(translate(words))
+            return jsonify(translate(words))
             # print(words)
 
         else:
@@ -79,4 +80,4 @@ class Index(MethodView):
 
 
 
-        return make_response('success', '200', {'Content-Type': 'text'})
+        # return make_response('success', '200', {'Content-Type': 'text'})
