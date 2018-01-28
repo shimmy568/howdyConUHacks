@@ -190,15 +190,28 @@ video, .app img#snap {
     background: white;
 }
 
-#mobileQRCodeDisplay h1 {
+#mobileQRCodeDisplay h2 {
     text-align: center;
+    size: 40px;
+    color: #FFE6E6;
+    font-family: "Rammetto One", sans-serif;
 }
+
+
 
 #mobileQRCodeDisplay img {
     width: 40%;
     max-width: 300px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    display: block;
+    padding-bottom: 200px;
+    margin: auto;
 }
+
+#logo{
+    text-align: center;
+    font-size: 100px;
+    font-family: "Rammetto One", sans-serif;
+    color: #FFE6E6;
+    padding-bottom: 100px;
+}
+
