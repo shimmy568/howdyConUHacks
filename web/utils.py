@@ -8,8 +8,6 @@ with open('./dict/out.json') as f:
 
 # KEY = "test_ocr.png"
 
-aws_id = 'AKIAII5QLFINZ4EFSX4Q'
-aws_pass = 'mztQG5rsG3nGLF2g728YhPSO50YuXYQPu99cMGxg'
 
 def detect_text(img, region="us-east-1"):
     rekognition = boto3.client("rekognition", region, aws_access_key_id=config.secrets['aws_id'], aws_secret_access_key=config.secrets['aws_secret'])

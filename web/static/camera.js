@@ -1,3 +1,5 @@
+var photoTaken = false;
+
 // References to all the element we will need.
 var video = document.querySelector('#camera-stream'),
     image = document.querySelector('#snap'),
@@ -5,7 +7,8 @@ var video = document.querySelector('#camera-stream'),
     controls = document.querySelector('.controls'),
     take_photo_btn = document.querySelector('#take-photo'),
     delete_photo_btn = document.querySelector('#delete-photo'),
-    error_message = document.querySelector('#error-message');
+    error_message = document.querySelector('#error-message'),
+    download_image_btn = document.querySelector('#upload-photo');
 
 let picture_data = null;
 
@@ -64,6 +67,8 @@ start_camera.addEventListener("click", function (e) {
 
 take_photo_btn.addEventListener("click", function (e) {
 
+    photoTaken = true;
+
     e.preventDefault();
 
     var snap = takeSnapshot();
@@ -73,29 +78,73 @@ take_photo_btn.addEventListener("click", function (e) {
     image.classList.add("visible");
 
     // Enable delete and save buttons
-    //delete_photo_btn.classList.remove("disabled");
-
+    delete_photo_btn.classList.remove("disabled");
+    download_image_btn.classList.remove("disabled");
+    take_photo_btn.classList.add("disabled");
+    
     $('#camera-stream').hide();
-
-    // Set the href attribute of the download button to the snap url.
-    download_photo_btn.href = snap;
 
     // Pause video playback of stream.
     video.pause();
 
 });
 
+$("#top_overlay").on("touchmove", function(e){
+    if(photoTaken && e.touches[0].clientY > $(document).height() * 0.1 && e.touches[0].clientY < $(document).height() * 0.45){
+        $("#top_overlay").css('height', e.touches[0].clientY);
+    }
+});
+
+$("#bottom_overlay").on("touchmove", function(e){
+    if(photoTaken && $(document).height() - e.touches[0].clientY > $(document).height() * 0.2 && $(document).height() - e.touches[0].clientY < $(document).height() * 0.45){
+        $("#bottom_overlay").css('height', $(document).height() - e.touches[0].clientY);
+    }
+    console.log('nani');
+});
+
+$("#upload-photo").click(function(){
+    url = 'http://127.0.0.1:5000/';
+    im = snap.src;
+
+    let data = {
+        'x': Math.round(($("#snap").width() - $(document).width()) / 2),
+        'y': Math.round($("#top_overlay").height()),
+        'width': Math.round($(document).width()),
+        'height': Math.round($(document).height() - $('#bottom_overlay').height() - $('#top_overlay').height()),
+        'img': im.substring(im.indexOf(',')+1, im.length),
+    }
+    console.log(data)
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        dataType: "json",
+        success: function (resultData) {
+            console.log('Success')
+            console.log(resultData)
+        },
+    });
+});
+
+console.log(delete_photo_btn);
 
 delete_photo_btn.addEventListener("click", function (e) {
-
+    console.log("hey");
     e.preventDefault();
+
+    photoTaken = false;
 
     // Hide image.
     image.setAttribute('src', "");
     image.classList.remove("visible");
 
     // Disable delete and save buttons
-    //delete_photo_btn.classList.add("disabled");
+    delete_photo_btn.classList.add("disabled");
+    download_image_btn.classList.add("disabled");
+    take_photo_btn.classList.remove("disabled");
+
+    $("#top_overlay").removeAttr('style');
+    $("#bottom_overlay").removeAttr('style');
 
     $('#camera-stream').show();
 

@@ -58,7 +58,6 @@ h3 {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 20;
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -70,6 +69,7 @@ h3 {
     border-radius: 50%;
     color: #fff;
     text-decoration: none;
+    z-index: 20;
     line-height: 0;
     opacity: 0.7;
     outline: none;
@@ -91,8 +91,22 @@ h3 {
     opacity: 0.5;
 }
 
+.app .controls a {
+    background-color: black;
+    cursor: default;
+}
+
+.app .controls a:hover {
+    opacity: 0.5;
+}
+
 .app .controls a i {
-    font-size: 18px;
+    font-size: 35px;
+    left: 50%;
+    z-index: 21;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    position: relative;
 }
 
 .app .controls #take-photo i {
@@ -148,4 +162,43 @@ video, .app img#snap {
     bottom: 0;
     width: 100%;
     height: 20%;
+}
+
+#delete-photo {
+    position: fixed;
+    left: 15px;
+    width: 50px;
+    height: 50px;
+    bottom: 15px;
+    z-index: 20;
+}
+
+#upload-photo {
+    position: fixed;
+    right: 15px;
+    width: 50px;
+    height: 50px;
+    bottom: 15px;
+    z-index: 20;
+}
+
+#mobileQRCodeDisplay{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background: white;
+}
+
+#mobileQRCodeDisplay h1 {
+    text-align: center;
+}
+
+#mobileQRCodeDisplay img {
+    width: 40%;
+    max-width: 300px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }

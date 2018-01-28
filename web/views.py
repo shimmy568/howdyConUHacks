@@ -13,6 +13,9 @@ from PIL import Image
 import base64
 from io import BytesIO
 
+
+import json
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # my_file = os.path.join(BASE_DIR, 'myfile.txt')
 
@@ -28,11 +31,13 @@ class Index(MethodView):
         # print(request.args)
 
         img = request.form.get('img')
-        y1 = int(request.form.get('y1', '0'))
-        y2 = int(request.form.get('y2', '500'))
-        x1 = int(request.form.get('x1', '0'))
-        x2 = int(request.form.get('x2', '500'))
+        y = int(request.form.get('y', '0'))
+        h = int(request.form.get('height', '500'))
+        x = int(request.form.get('x', '0'))
+        w = int(request.form.get('width', '500'))
 
+
+        print(y,h,x,w)
         # print(img)
         # im = b64decode(img)
         # im = Image(img)
@@ -44,13 +49,10 @@ class Index(MethodView):
 
         if img:
         #     #crop image
-                    # print(img[0:100], img[-100:])
             im = Image.open(BytesIO(base64.b64decode(img)))
-            # print(im)
-            # print(type(im))
-            # im.save("img4.png")
 
-            # im = im.crop((x1, y1, x2, y2))
+
+            im = im.crop((x, y, x+w, y+h))
             im.save("out.png")
 
             with open('out.png', "rb") as imageFile:
@@ -59,20 +61,15 @@ class Index(MethodView):
                 b_img = bytearray(f)
 
 
-            
-            # with BytesIO() as output:
-            #     im.save(output, 'BMP')
-            #     b_img = output.getvalue()
-
             aws_return = detect_text(b_img)
-            print(aws_return)
 
-        #     #text from OCR
-        #     aws_return = detect_text(img)
-        #     # text = "a fine Abbacchio with a side of Amaretti topped with fresh shavings of Noce Moscata Bao bun"
-
-        #     translate(aws_return['DetectedText'])
-
+            words = ""
+            for line in (aws_return['TextDetections']):
+                words = words + ' ' + line.get('DetectedText', '')
+            
+            # print(translate(words))
+            return jsonify(translate(words))
+            # print(words)
 
         else:
             return make_response('error: no image uploaded', '500', {'Content-Type': 'text'})
@@ -83,4 +80,4 @@ class Index(MethodView):
 
 
 
-        return make_response('success', '200', {'Content-Type': 'text'})
+        # return make_response('success', '200', {'Content-Type': 'text'})
