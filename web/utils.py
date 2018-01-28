@@ -2,9 +2,14 @@ import json
 import boto3
 import config
 
+import requests
+
+
 with open('./dict/out.json') as f:
     glossary = json.load(f)
 
+with open('./dict/blacklist.json') as f:
+    blacklist = set(json.load(f)['blacklist'])
 
 # KEY = "test_ocr.png"
 
@@ -24,6 +29,23 @@ def detect_text(img, region="us-east-1"):
 
     return response
 
+def google_translate(sentence):
+    data = {
+        'q' : sentence,
+        'target': 'en',
+    }
+
+    url = "https://translation.googleapis.com/language/translate/v2?key=%s"%(config.secrets['google_key'])
+
+    r = requests.post(url, data=data)
+
+    if r.status_code == 200:
+        return r.text
+    else:
+        print(r)
+        print(r.status_code)
+        return None
+
 
 def add_sentence(word, desc, return_sentence):
     if desc:
@@ -42,8 +64,9 @@ def translate(raw_text):
     sentences = text.split(' ')
 
     return_sentence = []
-
+    pos = []
     # print(text, sentences)
+    translate_words = []
     for i in range(0, len(sentences), 1):
         #three word dict
         contin = True
@@ -51,6 +74,11 @@ def translate(raw_text):
         desc = None
 
         #if word is in blacklist then continue and add it to the list as a string
+
+        if word in blacklist:
+
+            return_sentence = add_sentence(word, desc, return_sentence)
+            continue
 
         if len(sentences)-2 > i:
             raw_word = sentences[i] + ' ' + sentences[i+1] + ' ' + sentences[i+2]
@@ -81,19 +109,36 @@ def translate(raw_text):
 
 
         #if the item gets here before continuing then search for it on wikipedia and return the first sentance.
+        
+        if contin:
+            # translate_words += "%s. "%word
+            translate_words.append(word)
+            pos.append((word, i))
+            continue
 
         return_sentence = add_sentence(word, desc, return_sentence)
+
+    try:
+        if translate_words != []:
+            goog_out = json.loads(google_translate(translate_words))
+            # print(goog_out)
+
+            #get translations, then insert the words back into return_sentence based off of the positions values in pos
+            
+            for k in range(len(goog_out['data']['translations'])):
+                return_sentence.insert(pos[k][1], {'word' : pos[k][0], 'desc' : goog_out['data']['translations'][k]['translatedText']})
+
+    except Exception as e:
+        # print(e)
+        for k in pos:
+            return_sentence.insert(k[1], k[0])
+    
+    # for i in pos:
 
 
     return return_sentence
 
-    #one word dict
-    # for word in sentences:
-
-
-
-# text = "a fine Abbacchio with a side of Amaretti topped with fresh shavings of Noce Moscata Bao bun"
-# print(translate(text))
 
     
 
+# print(translate('a fine fait manger abbacchio cavolo'))
