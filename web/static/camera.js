@@ -214,27 +214,7 @@ console.log(delete_photo_btn);
 
 delete_photo_btn.addEventListener("click", function (e) {
     e.preventDefault();
-
-    photoTaken = false;
-
-    state = 0;
-    update_view();
-    // Hide image.
-    image.setAttribute('src', "");
-    image.classList.remove("visible");
-
-    // Disable delete and save buttons
-    delete_photo_btn.classList.add("disabled");
-    download_image_btn.classList.add("disabled");
-    take_photo_btn.classList.remove("disabled");
-
-    $("#top_overlay").removeAttr('style');
-    $("#bottom_overlay").removeAttr('style');
-
-    $('#camera-stream').show();
-
-    // Resume playback of stream.
-    video.play();
+    return_to_pic();
 });
 
 
@@ -310,6 +290,11 @@ function update_description( json ){
             descrip += ` <u onclick='display_modal("${ch}")'>`.concat(json[i].word).concat("</u>");
         }
     }
+
+    if (json.length <= 1){
+        descrip = 'No results found, please retake photo.'
+    }
+
     $("#description").html(descrip);
     data=json;
 }
@@ -330,4 +315,27 @@ function close_modal(){
     }
 }
 
+
+function return_to_pic(){
+    photoTaken = false;
+
+    state = 0;
+    update_view();
+    // Hide image.
+    image.setAttribute('src', "");
+    image.classList.remove("visible");
+
+    // Disable delete and save buttons
+    delete_photo_btn.classList.add("disabled");
+    download_image_btn.classList.add("disabled");
+    take_photo_btn.classList.remove("disabled");
+
+    $("#top_overlay").removeAttr('style');
+    $("#bottom_overlay").removeAttr('style');
+
+    $('#camera-stream').show();
+
+    // Resume playback of stream.
+    video.play();
+}
 

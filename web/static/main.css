@@ -273,7 +273,7 @@ video, .app img#snap {
     width: 100%;
     padding: 20px;
     position: fixed;
-    bottom: 0px;
+    bottom: 60px;
     display: none;
 }
 
@@ -281,4 +281,19 @@ video, .app img#snap {
     color: #7D1F2A;
     font-size: 18px;
     text-align: center;
+}
+
+#new_pic_div{
+    position: fixed;
+    bottom: 0px;
+    background-color: rgb(99, 17, 27);
+    width: 100%;
+}
+
+#new_pic{
+    display: block;
+    margin: auto;
+    height: 50px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
