@@ -21,19 +21,12 @@ navigator.getMedia = (navigator.getUserMedia ||
     navigator.mozGetUserMedia ||
     navigator.msGetUserMedia);
 
-console.log('a');
 navigator.mediaDevices.enumerateDevices().then(function (sourceInfos) {
-    console.log('b');
-    var audioSource = null;
     var videoSource = null;
     console.log(sourceInfos);
     for (var i = 0; i != sourceInfos.length; ++i) {
         var sourceInfo = sourceInfos[i];
-        if (sourceInfo.kind === 'audio') {
-            console.log(sourceInfo.id, sourceInfo.label || 'microphone');
-
-            audioSource = sourceInfo.id;
-        } else if (sourceInfo.kind === 'video') {
+        if (sourceInfo.kind === 'video') {
             console.log(sourceInfo.id, sourceInfo.label || 'camera');
 
             videoSource = sourceInfo.id;
@@ -42,7 +35,7 @@ navigator.mediaDevices.enumerateDevices().then(function (sourceInfos) {
         }
     }
 
-    sourceSelected(audioSource, videoSource);
+    sourceSelected(videoSource);
 });
 
 // Mobile browsers cannot play video without user input,
@@ -58,13 +51,8 @@ start_camera.addEventListener("click", function (e) {
 });
 
 
-function sourceSelected(audioSource, videoSource) {
+function sourceSelected(videoSource) {
     var constraints = {
-        audio: {
-            optional: [{
-                sourceId: audioSource
-            }]
-        },
         video: {
             optional: [{
                 sourceId: videoSource
@@ -72,7 +60,23 @@ function sourceSelected(audioSource, videoSource) {
         }
     };
 
-    //navigator.getUserMedia(constraints, successCallback, errorCallback);
+    navigator.getUserMedia(constraints, function (stream) {
+
+            // Create an object URL for the video stream and
+            // set it as src of our HTLM video element.
+            video.src = window.URL.createObjectURL(stream);
+
+            // Play the video element to start the stream.
+            video.play();
+            video.onplay = function () {
+                showVideo();
+            };
+
+        },
+        // Error Callback
+        function (err) {
+            displayErrorMessage("There was an error with accessing the camera stream: " + err.name, err);
+        });
 }
 
 if (!navigator.getMedia) {
@@ -122,20 +126,20 @@ start_camera.addEventListener("click", function (e) {
 
 var state = 0;
 
-function update_view(){
-    if (state == 0){
+function update_view() {
+    if (state == 0) {
         $("#take-photo").css("display", "block");
         $("#delete-photo").css("display", "none");
         $("#upload-photo").css("display", "none");
         $("#main_container1").css("display", "block");
         $("#main_container2").css("display", "none");
-    } else if (state == 1){
+    } else if (state == 1) {
         $("#take-photo").css("display", "none");
         $("#delete-photo").css("display", "block");
         $("#upload-photo").css("display", "block");
         $("#main_container1").css("display", "block");
         $("#main_container2").css("display", "none");
-    } else if (state == 2){
+    } else if (state == 2) {
         $("#main_container1").css("display", "none");
         $("#main_container2").css("display", "block");
     }
@@ -164,7 +168,7 @@ take_photo_btn.addEventListener("click", function (e) {
 
     // Pause video playback of stream.
     video.pause();
-    state=1;
+    state = 1;
     update_view();
 
 });
@@ -193,7 +197,7 @@ $("#upload-photo").click(function () {
         'height': Math.round($(document).height() - $('#bottom_overlay').height() - $('#top_overlay').height()),
         'img': im.substring(im.indexOf(',') + 1, im.length),
     }
-    state=2;
+    state = 2;
     update_view();
     console.log(data)
     $.ajax({
