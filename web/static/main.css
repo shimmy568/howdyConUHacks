@@ -248,6 +248,7 @@ video, .app img#snap {
 
 #main_container2{
     background-color: #7D1F2A;
+    display: none;
 }
 
 .header_des{
@@ -273,7 +274,7 @@ video, .app img#snap {
     width: 100%;
     padding: 20px;
     position: fixed;
-    bottom: 50px;
+    bottom: 45px;
     display: none;
 }
 
@@ -285,7 +286,7 @@ video, .app img#snap {
 
 #new_pic_div{
     position: fixed;
-    bottom: 0px;
+    bottom: -5px;
     background-color: rgb(99, 17, 27);
     width: 100%;
 }
