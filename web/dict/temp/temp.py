@@ -1,3 +1,15 @@
+from bs4 import BeautifulSoup
+
+
+def get_glossary():
+    for i in 'abcdefghijklmnopqrstuvwxyz':
+        url = 'https://theodora.com/food/culinary_dictionary_food_glossary_%s.html'%(i)
+        
+
+
+get_glossary()
+
+
 def create_out(file_name):
     with open(file_name) as f:
         # print(f.read())
@@ -49,5 +61,5 @@ def create_out(file_name):
 
 
 # create_out('asian')
-for i in ['china', 'asian', 'italian']:
-    create_out(i)
+# for i in ['china', 'asian', 'italian']:
+#     create_out(i)
