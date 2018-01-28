@@ -12,8 +12,11 @@ html {
     color: #333;
 }
 
-.app #start-camera{
+.app #start-camera:not(.visible){
     display: none;
+}
+
+.app #start-camera{
     border-radius: 3px;
     max-width: 400px;
     color: #fff;
@@ -39,6 +42,7 @@ h3 {
     background-color: #448AFF;
     text-decoration: none;
     padding: 15px;
+    z-index: 2000;
     opacity: 0.8;
     margin: 50px auto;
     text-align: center;

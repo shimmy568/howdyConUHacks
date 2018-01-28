@@ -104,20 +104,6 @@ if (!navigator.getMedia) {
 }
 
 
-
-// Mobile browsers cannot play video without user input,
-// so here we're using a button to start it manually.
-start_camera.addEventListener("click", function (e) {
-
-    e.preventDefault();
-
-    // Start video playback manually.
-    video.play();
-    showVideo();
-
-});
-
-
 take_photo_btn.addEventListener("click", function (e) {
 
     photoTaken = true;
