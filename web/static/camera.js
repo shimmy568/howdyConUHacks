@@ -278,6 +278,7 @@ function hideUI() {
 }
 
 var data = [];
+var images = [];
 
 function update_description( json ){
     console.log("JSON DATA", json);
@@ -297,6 +298,7 @@ function update_description( json ){
 
     $("#description").html(descrip);
     data=json;
+
 }
 
 var model_is_displayed = false;
