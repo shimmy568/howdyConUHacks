@@ -170,7 +170,7 @@ take_photo_btn.addEventListener("click", function (e) {
 });
 
 $("#top_overlay").on("touchmove", function (e) {
-    if (photoTaken && e.touches[0].clientY > $(document).height() * 0.1 && e.touches[0].clientY < $(document).height() * 0.45) {
+    if (photoTaken && e.touches[0].clientY > $(document).height() * 0.15 && e.touches[0].clientY < $(document).height() * 0.45) {
         $("#top_overlay").css('height', e.touches[0].clientY);
     }
 });
