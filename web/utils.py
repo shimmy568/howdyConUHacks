@@ -54,7 +54,19 @@ def get_image(query):
 
     # print(r)
     # print(r.text)
-    return json.loads(r.text).get('items', [])[0].get('link', None)
+    links = []
+    i = 0
+    # print(json.loads(r.text))
+    goog_data = json.loads(r.text).get('items', [])
+    while len(links) < 3 or not goog_data:
+        i += 1
+        
+        print(goog_data[i]['image'].keys())
+        a = goog_data[i].get('image', {}).get('thumbnailLink', None)#..get('link', None)
+        if a:
+            links.append(a)
+        goog_data.pop()
+    return links
 
 def add_sentence(word, desc, return_sentence):
     if desc:
