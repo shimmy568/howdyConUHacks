@@ -19,6 +19,59 @@ navigator.getMedia = (navigator.getUserMedia ||
     navigator.mozGetUserMedia ||
     navigator.msGetUserMedia);
 
+console.log('a');
+navigator.mediaDevices.enumerateDevices().then(function (sourceInfos) {
+    console.log('b');
+    var audioSource = null;
+    var videoSource = null;
+    console.log(sourceInfos);
+    for (var i = 0; i != sourceInfos.length; ++i) {
+        var sourceInfo = sourceInfos[i];
+        if (sourceInfo.kind === 'audio') {
+            console.log(sourceInfo.id, sourceInfo.label || 'microphone');
+
+            audioSource = sourceInfo.id;
+        } else if (sourceInfo.kind === 'video') {
+            console.log(sourceInfo.id, sourceInfo.label || 'camera');
+
+            videoSource = sourceInfo.id;
+        } else {
+            console.log('Some other kind of source: ', sourceInfo);
+        }
+    }
+
+    sourceSelected(audioSource, videoSource);
+});
+
+// Mobile browsers cannot play video without user input,
+// so here we're using a button to start it manually.
+start_camera.addEventListener("click", function (e) {
+
+    e.preventDefault();
+
+    // Start video playback manually.
+    video.play();
+    showVideo();
+
+});
+
+
+function sourceSelected(audioSource, videoSource) {
+    var constraints = {
+        audio: {
+            optional: [{
+                sourceId: audioSource
+            }]
+        },
+        video: {
+            optional: [{
+                sourceId: videoSource
+            }]
+        }
+    };
+
+    //navigator.getUserMedia(constraints, successCallback, errorCallback);
+}
 
 if (!navigator.getMedia) {
     displayErrorMessage("Your browser doesn't have support for the navigator.getUserMedia interface.");
@@ -26,8 +79,8 @@ if (!navigator.getMedia) {
 
     // Request the camera.
     navigator.getMedia({
-        video: true
-    },
+            video: true
+        },
         // Success Callback
         function (stream) {
 
@@ -65,6 +118,29 @@ start_camera.addEventListener("click", function (e) {
 });
 
 
+var state = 0;
+
+function update_view(){
+    if (state == 0){
+        $("#take-photo").css("display", "block");
+        $("#delete-photo").css("display", "none");
+        $("#upload-photo").css("display", "none");
+        $("#main_container1").css("display", "block");
+        $("#main_container2").css("display", "none");
+    } else if (state == 1){
+        $("#take-photo").css("display", "none");
+        $("#delete-photo").css("display", "block");
+        $("#upload-photo").css("display", "block");
+        $("#main_container1").css("display", "block");
+        $("#main_container2").css("display", "none");
+    } else if (state == 2){
+        $("#main_container1").css("display", "none");
+        $("#main_container2").css("display", "block");
+    }
+}
+
+
+
 take_photo_btn.addEventListener("click", function (e) {
 
     photoTaken = true;
@@ -81,38 +157,41 @@ take_photo_btn.addEventListener("click", function (e) {
     delete_photo_btn.classList.remove("disabled");
     download_image_btn.classList.remove("disabled");
     take_photo_btn.classList.add("disabled");
-    
+
     $('#camera-stream').hide();
 
     // Pause video playback of stream.
     video.pause();
+    state=1;
+    update_view();
 
 });
 
-$("#top_overlay").on("touchmove", function(e){
-    if(photoTaken && e.touches[0].clientY > $(document).height() * 0.1 && e.touches[0].clientY < $(document).height() * 0.45){
+$("#top_overlay").on("touchmove", function (e) {
+    if (photoTaken && e.touches[0].clientY > $(document).height() * 0.1 && e.touches[0].clientY < $(document).height() * 0.45) {
         $("#top_overlay").css('height', e.touches[0].clientY);
     }
 });
 
-$("#bottom_overlay").on("touchmove", function(e){
-    if(photoTaken && $(document).height() - e.touches[0].clientY > $(document).height() * 0.2 && $(document).height() - e.touches[0].clientY < $(document).height() * 0.45){
+$("#bottom_overlay").on("touchmove", function (e) {
+    if (photoTaken && $(document).height() - e.touches[0].clientY > $(document).height() * 0.2 && $(document).height() - e.touches[0].clientY < $(document).height() * 0.45) {
         $("#bottom_overlay").css('height', $(document).height() - e.touches[0].clientY);
     }
     console.log('nani');
 });
 
-$("#upload-photo").click(function(){
-    url = 'http://127.0.0.1:5000/';
+$("#upload-photo").click(function () {
+    url = 'localhost:5000/';
     im = snap.src;
-
     let data = {
         'x': Math.round(($("#snap").width() - $(document).width()) / 2),
         'y': Math.round($("#top_overlay").height()),
         'width': Math.round($(document).width()),
         'height': Math.round($(document).height() - $('#bottom_overlay').height() - $('#top_overlay').height()),
-        'img': im.substring(im.indexOf(',')+1, im.length),
+        'img': im.substring(im.indexOf(',') + 1, im.length),
     }
+    state=2;
+    update_view();
     console.log(data)
     $.ajax({
         type: "POST",
@@ -135,6 +214,8 @@ delete_photo_btn.addEventListener("click", function (e) {
 
     photoTaken = false;
 
+    state = 0;
+    update_view();
     // Hide image.
     image.setAttribute('src', "");
     image.classList.remove("visible");
@@ -213,6 +294,3 @@ function hideUI() {
     snap.classList.remove("visible");
     error_message.classList.remove("visible");
 }
-
-
-
