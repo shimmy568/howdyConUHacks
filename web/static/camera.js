@@ -1,5 +1,7 @@
 var photoTaken = false;
 
+var baseurl = "https://marcframe.pythonanywhere.com"
+
 // References to all the element we will need.
 var video = document.querySelector('#camera-stream'),
     image = document.querySelector('#snap'),
@@ -126,7 +128,7 @@ take_photo_btn.addEventListener("click", function (e) {
 
     var snap = takeSnapshot();
     picture_data = snap
-    // Show image. 
+    // Show image.
     image.setAttribute('src', snap);
     image.classList.add("visible");
 
@@ -156,7 +158,7 @@ $("#bottom_overlay").on("touchmove", function (e) {
 });
 
 $("#upload-photo").click(function () {
-    url = 'http://127.0.0.1:5000/';
+    url = baseurl;
     im = snap.src;
 
     let data = {
@@ -217,7 +219,7 @@ function showVideo() {
 
 
 function takeSnapshot() {
-    // Here we're using a trick that involves a hidden canvas element.  
+    // Here we're using a trick that involves a hidden canvas element.
 
     var hidden_canvas = document.querySelector('canvas'),
         context = hidden_canvas.getContext('2d');
