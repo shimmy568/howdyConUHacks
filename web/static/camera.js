@@ -177,7 +177,6 @@ $("#bottom_overlay").on("touchmove", function (e) {
     if (photoTaken && $(document).height() - e.touches[0].clientY > $(document).height() * 0.2 && $(document).height() - e.touches[0].clientY < $(document).height() * 0.45) {
         $("#bottom_overlay").css('height', $(document).height() - e.touches[0].clientY);
     }
-    console.log('nani');
 });
 
 $("#upload-photo").click(function () {
@@ -200,10 +199,12 @@ $("#upload-photo").click(function () {
         dataType: "json",
         success: function (resultData) {
             console.log('Success')
-            console.log(resultData)
+            console.log("result data", resultData)
+            
         },
     });
 });
+
 
 console.log(delete_photo_btn);
 
@@ -292,4 +293,9 @@ function hideUI() {
     video.classList.remove("visible");
     snap.classList.remove("visible");
     error_message.classList.remove("visible");
+}
+
+
+function update_description( json ){
+    console.log("JSON DATA", json);
 }
