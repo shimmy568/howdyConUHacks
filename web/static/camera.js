@@ -1,6 +1,6 @@
 var photoTaken = false;
 
-var baseurl = "https://marcframe.pythonanywhere.com"
+var baseurl = "/";
 
 // References to all the element we will need.
 var video = document.querySelector('#camera-stream'),
@@ -202,37 +202,19 @@ $("#upload-photo").click(function () {
         async: true,
         dataType: "json",
         success: function (resultData) {
-            console.log('Success')
-            console.log('result', resultData)
+            console.log('Success');
+            console.log('result', resultData);
+            update_description(resultData);
         },
     });
 });
+
 
 console.log(delete_photo_btn);
 
 delete_photo_btn.addEventListener("click", function (e) {
     e.preventDefault();
-
-    photoTaken = false;
-
-    state = 0;
-    update_view();
-    // Hide image.
-    image.setAttribute('src', "");
-    image.classList.remove("visible");
-
-    // Disable delete and save buttons
-    delete_photo_btn.classList.add("disabled");
-    download_image_btn.classList.add("disabled");
-    take_photo_btn.classList.remove("disabled");
-
-    $("#top_overlay").removeAttr('style');
-    $("#bottom_overlay").removeAttr('style');
-
-    $('#camera-stream').show();
-
-    // Resume playback of stream.
-    video.play();
+    return_to_pic();
 });
 
 
@@ -288,10 +270,88 @@ function displayErrorMessage(error_msg, error) {
 
 function hideUI() {
     // Helper function for clearing the app UI.
-
     controls.classList.remove("visible");
     start_camera.classList.remove("visible");
     video.classList.remove("visible");
     snap.classList.remove("visible");
     error_message.classList.remove("visible");
 }
+
+var data = [];
+var images = [];
+
+function update_description( json ){
+    images=[];
+    console.log("JSON DATA", json);
+    var descrip = '';
+    for (let i = 0; i < json.length; i++){
+        if (typeof json[i] == "string"){
+            descrip += " ".concat(json[i]);
+        } else {
+            descrip += ` <u onclick='display_modal("${i}")'>`.concat(json[i].word).concat("</u>");
+            $("#img1").attr("src", json[i].img[0]);
+            $("#img2").attr("src", json[i].img[1]);
+            $("#img3").attr("src", json[i].img[2]);
+        }
+    }
+
+    if (json.length <= 1){
+        descrip = 'No results found, please retake photo.'
+    }
+
+    $("#description").html(descrip);
+    data=json;
+
+}
+
+var model_is_displayed = false;
+function display_modal(term){
+    $("#modal").css("display", "block");
+    $("#modal_text").text(data[term].desc);
+    setTimeout(function(){
+        model_is_displayed = true;
+    }, 500);
+    $("#img1").attr("src", data[term].img[0]);
+    $("#img2").attr("src", data[term].img[1]);
+    $("#img3").attr("src", data[term].img[2]);
+}
+
+function close_modal(){
+    if (model_is_displayed == true){
+        $("#modal").css("display", "none");
+        model_is_displayed = false;
+    }
+}
+
+
+function return_to_pic(){
+    photoTaken = false;
+
+    state = 0;
+    update_view();
+    // Hide image.
+    image.setAttribute('src', "");
+    image.classList.remove("visible");
+
+    // Disable delete and save buttons
+    delete_photo_btn.classList.add("disabled");
+    download_image_btn.classList.add("disabled");
+    take_photo_btn.classList.remove("disabled");
+
+    $("#top_overlay").removeAttr('style');
+    $("#bottom_overlay").removeAttr('style');
+
+    $('#camera-stream').show();
+
+    // Resume playback of stream.
+    video.play();
+}
+
+const items = document.querySelectorAll(".accordion a");
+
+function toggleAccordion(){
+  this.classList.toggle('active');
+  this.nextElementSibling.classList.toggle('active');
+}
+
+items.forEach(item => item.addEventListener('click', toggleAccordion));

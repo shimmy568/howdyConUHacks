@@ -175,20 +175,20 @@ video, .app img#snap {
 
 #delete-photo {
     position: fixed;
-    left: 15px;
+    left: 100px;
     width: 50px;
     height: 50px;
-    bottom: 15px;
+    bottom: 35px;
     z-index: 20;
     display: none;
 }
 
 #upload-photo {
     position: fixed;
-    right: 15px;
+    right: 100px;
     width: 50px;
     height: 50px;
-    bottom: 15px;
+    bottom: 35px;
     z-index: 20;
     display: none;
 }
@@ -248,4 +248,127 @@ video, .app img#snap {
 
 #main_container2{
     background-color: #7D1F2A;
+}
+
+.header_des{
+    text-align: center;
+    font-size: 20px;
+    padding-top: 100px;
+    color: #FFE6E6;
+}
+
+#description{
+    padding-top: 10px;
+    width: 90%;
+    display: block;
+    margin: auto;
+    text-align: center;
+    font-size: 17px;
+    color: #FFE6E6;
+}
+
+#modal{
+    z-index: 10000;
+    background-color: #FFE6E6;
+    width: 100%;
+    padding: 20px;
+    position: fixed;
+    bottom: 50px;
+    display: none;
+}
+
+#modal_text{
+    color: #7D1F2A;
+    font-size: 18px;
+    text-align: center;
+}
+
+#new_pic_div{
+    position: fixed;
+    bottom: 0px;
+    background-color: rgb(99, 17, 27);
+    width: 100%;
+}
+
+#new_pic{
+    display: block;
+    margin: auto;
+    height: 50px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+
+.container_2 {
+	width: 100%;
+	margin: 0 auto;
+    float: right;
+    display: inline-block;
+}
+
+header {
+  background: transparent;
+  position: fixed;
+  width: 100%;
+  right: 100px;
+  z-index: 10000;
+  font-family: "Titillium Web", sans-serif;
+  font-size: 20px;
+}
+
+header::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.logo {
+  float: left;
+  padding: 10px 0;
+}
+
+nav {
+  float: right;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav li {
+  display: inline-block;
+  margin-left: 70px;
+  padding-top: 15px;
+  margin-top: 20px;
+
+  position: relative;
+}
+
+nav a {
+  color: #FFE6E6;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+nav a:hover {
+  color: #FFE6E6;
+}
+
+nav a::before {
+  content: '';
+  display: block;
+  height: 5px;
+  background-color: #FFE6E6;
+
+  position: absolute;
+  top: 0;
+  width: 0%;
+
+  transition: all ease-in-out 250ms;
+}
+
+nav a:hover::before {
+  width: 100%;
 }
