@@ -1,5 +1,7 @@
 var photoTaken = false;
 
+var baseurl = "https://marcframe.pythonanywhere.com"
+
 // References to all the element we will need.
 var video = document.querySelector('#camera-stream'),
     image = document.querySelector('#snap'),
@@ -19,28 +21,18 @@ navigator.getMedia = (navigator.getUserMedia ||
     navigator.mozGetUserMedia ||
     navigator.msGetUserMedia);
 
-console.log('a');
 navigator.mediaDevices.enumerateDevices().then(function (sourceInfos) {
-    console.log('b');
-    var audioSource = null;
     var videoSource = null;
-    console.log(sourceInfos);
     for (var i = 0; i != sourceInfos.length; ++i) {
         var sourceInfo = sourceInfos[i];
-        if (sourceInfo.kind === 'audio') {
-            console.log(sourceInfo.id, sourceInfo.label || 'microphone');
+        if (sourceInfo.kind.indexOf('video') != -1) {
+            console.log(sourceInfo);
 
-            audioSource = sourceInfo.id;
-        } else if (sourceInfo.kind === 'video') {
-            console.log(sourceInfo.id, sourceInfo.label || 'camera');
-
-            videoSource = sourceInfo.id;
-        } else {
-            console.log('Some other kind of source: ', sourceInfo);
+            videoSource = sourceInfo.deviceId;
         }
     }
 
-    sourceSelected(audioSource, videoSource);
+    sourceSelected(videoSource);
 });
 
 // Mobile browsers cannot play video without user input,
@@ -56,13 +48,8 @@ start_camera.addEventListener("click", function (e) {
 });
 
 
-function sourceSelected(audioSource, videoSource) {
+function sourceSelected(videoSource) {
     var constraints = {
-        audio: {
-            optional: [{
-                sourceId: audioSource
-            }]
-        },
         video: {
             optional: [{
                 sourceId: videoSource
@@ -70,10 +57,25 @@ function sourceSelected(audioSource, videoSource) {
         }
     };
 
-    //navigator.getUserMedia(constraints, successCallback, errorCallback);
+    navigator.getMedia(constraints, function (stream) {
+
+            // Create an object URL for the video stream and
+            // set it as src of our HTLM video element.
+            video.src = window.URL.createObjectURL(stream);
+            // Play the video element to start the stream.
+            video.play();
+            video.onplay = function () {
+                showVideo();
+            };
+
+        },
+        // Error Callback
+        function (err) {
+            displayErrorMessage("There was an error with accessing the camera stream: " + err.name, err);
+        });
 }
 
-if (!navigator.getMedia) {
+/* if (!navigator.getMedia) {
     displayErrorMessage("Your browser doesn't have support for the navigator.getUserMedia interface.");
 } else {
 
@@ -101,7 +103,7 @@ if (!navigator.getMedia) {
         }
     );
 
-}
+} */
 
 
 
@@ -120,20 +122,20 @@ start_camera.addEventListener("click", function (e) {
 
 var state = 0;
 
-function update_view(){
-    if (state == 0){
+function update_view() {
+    if (state == 0) {
         $("#take-photo").css("display", "block");
         $("#delete-photo").css("display", "none");
         $("#upload-photo").css("display", "none");
         $("#main_container1").css("display", "block");
         $("#main_container2").css("display", "none");
-    } else if (state == 1){
+    } else if (state == 1) {
         $("#take-photo").css("display", "none");
         $("#delete-photo").css("display", "block");
         $("#upload-photo").css("display", "block");
         $("#main_container1").css("display", "block");
         $("#main_container2").css("display", "none");
-    } else if (state == 2){
+    } else if (state == 2) {
         $("#main_container1").css("display", "none");
         $("#main_container2").css("display", "block");
     }
@@ -149,7 +151,7 @@ take_photo_btn.addEventListener("click", function (e) {
 
     var snap = takeSnapshot();
     picture_data = snap
-    // Show image. 
+    // Show image.
     image.setAttribute('src', snap);
     image.classList.add("visible");
 
@@ -162,7 +164,7 @@ take_photo_btn.addEventListener("click", function (e) {
 
     // Pause video playback of stream.
     video.pause();
-    state=1;
+    state = 1;
     update_view();
 
 });
@@ -177,11 +179,11 @@ $("#bottom_overlay").on("touchmove", function (e) {
     if (photoTaken && $(document).height() - e.touches[0].clientY > $(document).height() * 0.2 && $(document).height() - e.touches[0].clientY < $(document).height() * 0.45) {
         $("#bottom_overlay").css('height', $(document).height() - e.touches[0].clientY);
     }
-    console.log('nani');
 });
 
 $("#upload-photo").click(function () {
-    url = 'localhost:5000/';
+    url = baseurl;
+
     im = snap.src;
     let data = {
         'x': Math.round(($("#snap").width() - $(document).width()) / 2),
@@ -190,7 +192,7 @@ $("#upload-photo").click(function () {
         'height': Math.round($(document).height() - $('#bottom_overlay').height() - $('#top_overlay').height()),
         'img': im.substring(im.indexOf(',') + 1, im.length),
     }
-    state=2;
+    state = 2;
     update_view();
     console.log(data)
     $.ajax({
@@ -209,7 +211,6 @@ $("#upload-photo").click(function () {
 console.log(delete_photo_btn);
 
 delete_photo_btn.addEventListener("click", function (e) {
-    console.log("hey");
     e.preventDefault();
 
     photoTaken = false;
@@ -246,7 +247,7 @@ function showVideo() {
 
 
 function takeSnapshot() {
-    // Here we're using a trick that involves a hidden canvas element.  
+    // Here we're using a trick that involves a hidden canvas element.
 
     var hidden_canvas = document.querySelector('canvas'),
         context = hidden_canvas.getContext('2d');
