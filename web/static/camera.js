@@ -65,6 +65,29 @@ start_camera.addEventListener("click", function (e) {
 });
 
 
+var state = 0;
+
+function update_view(){
+    if (state == 0){
+        $("#take-photo").css("display", "block");
+        $("#delete-photo").css("display", "none");
+        $("#upload-photo").css("display", "none");
+        $("#main_container1").css("display", "block");
+        $("#main_container2").css("display", "none");
+    } else if (state == 1){
+        $("#take-photo").css("display", "none");
+        $("#delete-photo").css("display", "block");
+        $("#upload-photo").css("display", "block");
+        $("#main_container1").css("display", "block");
+        $("#main_container2").css("display", "none");
+    } else if (state == 2){
+        $("#main_container1").css("display", "none");
+        $("#main_container2").css("display", "block");
+    }
+}
+
+
+
 take_photo_btn.addEventListener("click", function (e) {
 
     photoTaken = true;
@@ -86,6 +109,8 @@ take_photo_btn.addEventListener("click", function (e) {
 
     // Pause video playback of stream.
     video.pause();
+    state=1;
+    update_view();
 
 });
 
@@ -105,7 +130,6 @@ $("#bottom_overlay").on("touchmove", function(e){
 $("#upload-photo").click(function(){
     url = 'http://127.0.0.1:5000/';
     im = snap.src;
-
     let data = {
         'x': Math.round(($("#snap").width() - $(document).width()) / 2),
         'y': Math.round($("#top_overlay").height()),
@@ -113,6 +137,8 @@ $("#upload-photo").click(function(){
         'height': Math.round($(document).height() - $('#bottom_overlay').height() - $('#top_overlay').height()),
         'img': im.substring(im.indexOf(',')+1, im.length),
     }
+    state=2;
+    update_view();
     console.log(data)
     $.ajax({
         type: "POST",
@@ -134,6 +160,8 @@ delete_photo_btn.addEventListener("click", function (e) {
 
     photoTaken = false;
 
+    state = 0;
+    update_view();
     // Hide image.
     image.setAttribute('src', "");
     image.classList.remove("visible");
