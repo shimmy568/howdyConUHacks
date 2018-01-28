@@ -1,6 +1,6 @@
 var photoTaken = false;
 
-var baseurl = "https://marcframe.pythonanywhere.com"
+var baseurl = "/";
 
 // References to all the element we will need.
 var video = document.querySelector('#camera-stream'),
@@ -202,11 +202,13 @@ $("#upload-photo").click(function () {
         async: true,
         dataType: "json",
         success: function (resultData) {
-            console.log('Success')
-            console.log('result', resultData)
+            console.log('Success');
+            console.log('result', resultData);
+            update_description(resultData);
         },
     });
 });
+
 
 console.log(delete_photo_btn);
 
@@ -288,10 +290,44 @@ function displayErrorMessage(error_msg, error) {
 
 function hideUI() {
     // Helper function for clearing the app UI.
-
     controls.classList.remove("visible");
     start_camera.classList.remove("visible");
     video.classList.remove("visible");
     snap.classList.remove("visible");
     error_message.classList.remove("visible");
 }
+
+var data = [];
+
+function update_description( json ){
+    console.log("JSON DATA", json);
+    var descrip = '';
+    for (let i = 0; i < json.length; i++){
+        if (typeof json[i] == "string"){
+            descrip += " ".concat(json[i]);
+        } else {
+            var ch = json[i].desc;
+            descrip += ` <u onclick='display_modal("${ch}")'>`.concat(json[i].word).concat("</u>");
+        }
+    }
+    $("#description").html(descrip);
+    data=json;
+}
+
+var model_is_displayed = false;
+function display_modal(term){
+    $("#modal").css("display", "block");
+    $("#modal_text").text(term);
+    setTimeout(function(){
+        model_is_displayed = true;
+    }, 500);
+}
+
+function close_modal(){
+    if (model_is_displayed == true){
+        $("#modal").css("display", "none");
+        model_is_displayed = false;
+    }
+}
+
+
