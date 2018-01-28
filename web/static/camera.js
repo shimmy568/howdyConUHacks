@@ -70,7 +70,7 @@ function sourceSelected(audioSource, videoSource) {
         }
     };
 
-    navigator.getUserMedia(constraints, successCallback, errorCallback);
+    //navigator.getUserMedia(constraints, successCallback, errorCallback);
 }
 
 if (!navigator.getMedia) {
@@ -156,7 +156,7 @@ $("#bottom_overlay").on("touchmove", function (e) {
 });
 
 $("#upload-photo").click(function () {
-    url = 'http://127.0.0.1:5000/';
+    url = 'localhost:5000/';
     im = snap.src;
 
     let data = {

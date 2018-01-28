@@ -12,6 +12,19 @@ html {
     color: #333;
 }
 
+.app #start-camera{
+    display: none;
+    border-radius: 3px;
+    max-width: 400px;
+    color: #fff;
+    background-color: #448AFF;
+    text-decoration: none;
+    padding: 15px;
+    opacity: 0.8;
+    margin: 50px auto;
+    text-align: center;
+}
+
 h3 {
     font: normal 32px/1.5 'Open Sans', sans-serif;
     color: #2c3e50;
