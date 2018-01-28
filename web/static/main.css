@@ -273,7 +273,7 @@ video, .app img#snap {
     width: 100%;
     padding: 20px;
     position: fixed;
-    bottom: 60px;
+    bottom: 50px;
     display: none;
 }
 
@@ -302,8 +302,8 @@ video, .app img#snap {
 .container_2 {
 	width: 100%;
 	margin: 0 auto;
-  float: right;
-  display: inline-block;
+    float: right;
+    display: inline-block;
 }
 
 header {

@@ -278,16 +278,20 @@ function hideUI() {
 }
 
 var data = [];
+var images = [];
 
 function update_description( json ){
+    images=[];
     console.log("JSON DATA", json);
     var descrip = '';
     for (let i = 0; i < json.length; i++){
         if (typeof json[i] == "string"){
             descrip += " ".concat(json[i]);
         } else {
-            var ch = json[i].desc;
-            descrip += ` <u onclick='display_modal("${ch}")'>`.concat(json[i].word).concat("</u>");
+            descrip += ` <u onclick='display_modal("${i}")'>`.concat(json[i].word).concat("</u>");
+            $("#img1").attr("src", json[i].img[0]);
+            $("#img2").attr("src", json[i].img[1]);
+            $("#img3").attr("src", json[i].img[2]);
         }
     }
 
@@ -297,15 +301,19 @@ function update_description( json ){
 
     $("#description").html(descrip);
     data=json;
+
 }
 
 var model_is_displayed = false;
 function display_modal(term){
     $("#modal").css("display", "block");
-    $("#modal_text").text(term);
+    $("#modal_text").text(data[term].desc);
     setTimeout(function(){
         model_is_displayed = true;
     }, 500);
+    $("#img1").attr("src", data[term].img[0]);
+    $("#img2").attr("src", data[term].img[1]);
+    $("#img3").attr("src", data[term].img[2]);
 }
 
 function close_modal(){
