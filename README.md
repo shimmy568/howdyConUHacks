@@ -1,6 +1,6 @@
 # FOODIE - CONUHACKSIII
 
-This repo is for Foodie - a menu translator for when you don't understand shit :)
+This repo is for Foodie - a translator for fancy menu terms :)
 
 ### FOR API USAGE
 
